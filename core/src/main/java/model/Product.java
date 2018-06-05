@@ -21,6 +21,7 @@ public class Product implements Serializable {
     boolean tracks;
     int hp;
     int price;
+    @Column(length = 3000)
     String description;
 
     public Product() {
