@@ -7,7 +7,8 @@
         <description>This unit manages customers for the contractor app designed by Stefano Verhoeve
         </description>
         <jta-data-source>jdbc/customerds</jta-data-source>
-        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <!--<exclude-unlisted-classes>false</exclude-unlisted-classes>-->
+        <class>model.Customer</class>
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
             <property name="eclipselink.logging.logger" value="DefaultLogger"/>

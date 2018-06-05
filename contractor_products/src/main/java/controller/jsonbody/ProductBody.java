@@ -1,6 +1,5 @@
-package model;
+package controller.jsonbody;
 
-import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -8,13 +7,7 @@ import java.io.Serializable;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@Entity(name = "Product")
-@Table(name = "product")
-public class Product implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+public class ProductBody implements Serializable {
 
     String brand;
     String model;
@@ -23,25 +16,8 @@ public class Product implements Serializable {
     int price;
     String description;
 
-    public Product() {
+    public ProductBody() {
 
-    }
-
-    public Product(String brand, String model, boolean tracks, int hp, int price, String description) {
-        this.brand = brand;
-        this.model = model;
-        this.tracks = tracks;
-        this.hp = hp;
-        this.price = price;
-        this.description = description;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getBrand() {
@@ -60,7 +36,7 @@ public class Product implements Serializable {
         this.model = model;
     }
 
-    public boolean isTracks() {
+    public boolean getTracks() {
         return tracks;
     }
 

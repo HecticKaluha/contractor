@@ -3,7 +3,7 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd" version="2.1">
-    <persistence-unit name="contractor_customer">
+    <persistence-unit name="contractor_product">
         <description>This unit manages customers for the contractor app designed by Stefano Verhoeve
         </description>
         <jta-data-source>jdbc/productds</jta-data-source>

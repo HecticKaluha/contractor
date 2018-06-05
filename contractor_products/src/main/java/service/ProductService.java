@@ -2,6 +2,7 @@ package service;
 
 import dao.ProductDao;
 import exceptions.CouldNotCreateProductException;
+import exceptions.CouldNotGetProductsException;
 import model.Product;
 
 import javax.ejb.Stateless;
@@ -14,12 +15,12 @@ public class ProductService {
     @Inject
     ProductDao productDao;
 
-    public List<Product> getAllProducts() throws CouldNotCreateProductException {
+    public List<Product> getAllProducts() throws CouldNotGetProductsException {
         return productDao.getAllProducts();
     }
 
-    public Product addProduct(String name) throws CouldNotCreateProductException {
-        return productDao.addProduct(name);
+    public Product addProduct(String brand, String model, boolean tracks, int hp, int price, String description) throws CouldNotCreateProductException {
+        return productDao.addProduct(brand, model, tracks, hp, price, description);
     }
 
 }
