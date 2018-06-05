@@ -9,6 +9,7 @@
         <module name="contractor_customer" />
         <module name="contractor_orders" />
         <module name="contractor_products" />
+        <module name="core" />
       </profile>
     </annotationProcessing>
   </component>
