@@ -1,7 +1,6 @@
 package dao;
 
-import exceptions.CouldNotCreateCustomerException;
-import exceptions.CouldNotGetCustomersException;
+import exceptions.*;
 import model.Customer;
 import model.Product;
 
@@ -33,6 +32,50 @@ public class CustomerDaoImp implements CustomerDao {
             return customer;
         } catch (Exception e) {
             throw new CouldNotCreateCustomerException(e.getMessage());
+        }
+    }
+
+    @Override
+    public Customer find(String name) throws CouldNotFindCustomerException {
+        try {
+            Customer CustomerToReturn = em.createQuery("SELECT customer FROM Customer customer WHERE customer.name = :name", Customer.class)
+                    .setParameter("name", name)
+                    .getSingleResult();
+            return CustomerToReturn;
+        } catch (Exception e) {
+            throw new CouldNotFindCustomerException(e.getMessage());
+        }
+    }
+
+    @Override
+    public Customer updateCustomer(String name, String adress, String bankAccount, String sex, int age, String email) throws CouldNotFindCustomerException, CouldNotUpdateCustomerException {
+        Customer customerToUpdate;
+        try {
+            customerToUpdate = find(name);
+            customerToUpdate.setAdress(adress);
+            customerToUpdate.setBankAccount(bankAccount);
+            customerToUpdate.setSex(sex);
+            customerToUpdate.setAge(age);
+            customerToUpdate.setEmail(email);
+            em.persist(customerToUpdate);
+            return customerToUpdate;
+        } catch (CouldNotFindCustomerException e) {
+            throw new CouldNotFindCustomerException(e.getMessage());
+        } catch (Exception e) {
+            throw new CouldNotUpdateCustomerException(e.getMessage());
+        }
+    }
+
+    @Override
+    public boolean delete(String name) throws CouldNotDeleteCustomerException {
+        try{
+            Customer customerToDelete = find(name);
+            em.remove(customerToDelete);
+            return true;
+        }
+        catch(Exception e)
+        {
+            throw new CouldNotDeleteCustomerException(e.getMessage());
         }
     }
 

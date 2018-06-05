@@ -40,8 +40,6 @@ public class ProductDaoImp implements ProductDao {
         Product productToUpdate;
         try {
             productToUpdate = find(brand, model);
-            productToUpdate.setBrand(brand);
-            productToUpdate.setModel(model);
             productToUpdate.setTracks(tracks);
             productToUpdate.setHp(hp);
             productToUpdate.setPrice(price);
