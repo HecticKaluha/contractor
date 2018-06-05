@@ -1,8 +1,7 @@
 package service;
 
 import dao.ProductDao;
-import exceptions.CouldNotCreateProductException;
-import exceptions.CouldNotGetProductsException;
+import exceptions.*;
 import model.Product;
 
 import javax.ejb.Stateless;
@@ -23,4 +22,15 @@ public class ProductService {
         return productDao.addProduct(brand, model, tracks, hp, price, description);
     }
 
+    public Product updateProduct(String brand, String model, boolean tracks, int hp, int price, String description) throws CouldNotUpdateProductException, CouldNotFindProductException {
+        return productDao.updateProduct(brand, model, tracks, hp, price, description);
+    }
+
+    public Product find(String brand, String model) throws CouldNotFindProductException {
+        return productDao.find(brand, model);
+    }
+
+    public boolean delete(String brand, String model) throws CouldNotDeleteProductException {
+        return productDao.delete(brand, model);
+    }
 }
