@@ -54,7 +54,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.eclipse.persistence:org.eclipse.persistence.jpa.jpql:2.5.2" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.6" level="project" />
     <orderEntry type="module" module-name="core" />
-    <orderEntry type="library" name="Maven: org.apache.activemq:activemq-all:5.15.3" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.5" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.activemq:activemq-all:5.15.3" level="project" />
   </component>
 </module>
