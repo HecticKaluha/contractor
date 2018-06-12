@@ -6,6 +6,8 @@ import JMS.connection.MessageSenderGateway;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
+import javax.jms.TextMessage;
+import javax.xml.soap.Text;
 
 public class ProductCustomerGateway implements MessageListener {
 
@@ -26,20 +28,20 @@ public class ProductCustomerGateway implements MessageListener {
         receiver.setListerner(this);
     }
 
-    public void sendToCustomer(ObjectMessage message) {
+    public void sendToCustomer(TextMessage message) {
         sender.send(message);
     }
 
     @Override
     public void onMessage(Message message) {
         try {
-            if (message instanceof ObjectMessage) {
+            if (message instanceof TextMessage) {
                 System.out.println("Received message from Customer: " + message.toString());
                 //check message for typefield and call right method
 
 
             } else {
-                System.out.println("The message wasnt of the correct type. It was not an instance of ObjectMessage");
+                System.out.println("The message wasnt of the correct type. It was not an instance of TextMessage");
             }
         } catch (Exception e) {
             //TODO: Make non-general catch

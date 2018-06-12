@@ -1,10 +1,19 @@
 package dao;
 
+import JMS.Broker;
+import JMS.MessageObject;
+import JMS.connection.ConnectionManager;
+import com.google.gson.Gson;
 import exceptions.CouldNotDeleteOrderException;
 import exceptions.CouldNotFindOrderException;
 import exceptions.CouldNotGetOrderException;
 import model.Order;
 
+import javax.inject.Inject;
+import javax.jms.ObjectMessage;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+import javax.json.Json;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -14,6 +23,9 @@ public class OrderDaoImpl implements OrderDao {
 
     @PersistenceContext(unitName = "contractor_order")
     private EntityManager em;
+
+    @Inject
+    private Broker broker;
 
     @Override
     public List<Order> getAllOrders() throws CouldNotGetOrderException {
@@ -51,9 +63,26 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Order addOrder(List<Integer> orders) {
-        Order order = new Order(orders);
-        em.persist(order);
+    public Order addOrder(List<Integer> products) {
+        Order order = new Order(products);
+        try{
+            em.persist(order);
+        }
+        catch(Exception e)
+        {
+            System.out.println("Foutje " + e.getMessage() );
+        }
+
+
+        //put message in queue to calculate the totalprice of the orders
+        MessageObject messageObject = new MessageObject();
+        messageObject.setAction("calculateTotalPrice");
+        messageObject.addParameter(order.getProducts());
+        Gson gson = new Gson();
+        String jsonMessage = gson.toJson(messageObject);
+        System.out.println("The Json you sent to Product is: " + jsonMessage);
+        broker.sendToProduct(jsonMessage);
+
         return order;
     }
 }

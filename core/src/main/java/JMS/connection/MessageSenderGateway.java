@@ -49,7 +49,7 @@ public class MessageSenderGateway {
         return null;
     }
 
-    public void send(ObjectMessage msg) {
+    public void send(TextMessage msg) {
         try {
             producer.send(destination, msg);
         } catch (JMSException e) {

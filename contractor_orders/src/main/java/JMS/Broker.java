@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.jms.ObjectMessage;
+import javax.jms.TextMessage;
 
 @Singleton
 @Startup
@@ -26,11 +27,27 @@ public class Broker {
         orderProductGateway.setBroker(this);
     }
 
-    public void sendToCustomer(ObjectMessage message) {
+    public void sendToCustomer(TextMessage message) {
         orderCustomerGateway.sendToCustomer(message);
     }
 
-    public void sendToProduct(ObjectMessage message) {
+    public void sendToProduct(String message) {
         orderProductGateway.sendToProduct(message);
+    }
+
+    public OrderCustomerGateway getOrderCustomerGateway() {
+        return orderCustomerGateway;
+    }
+
+    public void setOrderCustomerGateway(OrderCustomerGateway orderCustomerGateway) {
+        this.orderCustomerGateway = orderCustomerGateway;
+    }
+
+    public OrderProductGateway getOrderProductGateway() {
+        return orderProductGateway;
+    }
+
+    public void setOrderProductGateway(OrderProductGateway orderProductGateway) {
+        this.orderProductGateway = orderProductGateway;
     }
 }

@@ -24,12 +24,18 @@ public class Order implements Serializable {
     @Column(name="products")
     private List<Integer> products;
 
+    boolean paid;
+
+    int totalPrice;
+
     public Order() {
     }
 
     public Order(List<Integer> products){
         this.products = products;
         this.orderdate = new Date();
+        this.paid = false;
+        this.totalPrice = 0;
     }
 
     public int getOrderId() {
@@ -50,5 +56,29 @@ public class Order implements Serializable {
 
     public void addProduct(int productNo) {
         this.products.add(productNo);
+    }
+
+    public Date getOrderdate() {
+        return orderdate;
+    }
+
+    public void setOrderdate(Date orderdate) {
+        this.orderdate = orderdate;
+    }
+
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
