@@ -30,6 +30,19 @@ public class OrderController {
         }
     }
 
+    @GET
+    @Path("/{invoiceid}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSpecificProduct(@PathParam("invoiceid") String invoiceid) {
+        try {
+            Order selected = orderService.find(Integer.parseInt(invoiceid));
+            return Response.ok(selected).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
+        }
+    }
+
     @DELETE
     @Path("/{invoiceid}")
     @Consumes(MediaType.APPLICATION_JSON)

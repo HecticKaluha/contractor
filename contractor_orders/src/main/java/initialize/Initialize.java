@@ -27,10 +27,10 @@ public class Initialize {
         order1.add(2);
         order1.add(3);
         List<Integer> order2 = new ArrayList<Integer>();
-        order1.add(1);
-        order1.add(3);
+        order2.add(1);
+        order2.add(3);
         List<Integer> order3 = new ArrayList<Integer>();
-        order1.add(1);
+        order3.add(1);
 
         try {
             orderService.addOrder(order1);

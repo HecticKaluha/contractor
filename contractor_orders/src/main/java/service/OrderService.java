@@ -2,6 +2,7 @@ package service;
 
 import dao.OrderDao;
 import exceptions.CouldNotDeleteOrderException;
+import exceptions.CouldNotFindOrderException;
 import exceptions.CouldNotGetOrderException;
 
 import javax.inject.Inject;
@@ -23,5 +24,9 @@ public class OrderService {
 
     public Order addOrder(List<Integer> products){
         return orderDao.addOrder(products);
+    }
+
+    public Order find(int orderId) throws CouldNotFindOrderException {
+        return orderDao.find(orderId);
     }
 }

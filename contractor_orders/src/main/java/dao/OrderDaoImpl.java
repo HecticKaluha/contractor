@@ -7,6 +7,7 @@ import model.Order;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 
 public class OrderDaoImpl implements OrderDao {
@@ -24,6 +25,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
+    @Transactional
     public boolean deleteOrder(int orderId) throws CouldNotDeleteOrderException {
         try{
             Order orderToDelete = find(orderId);
@@ -54,6 +56,4 @@ public class OrderDaoImpl implements OrderDao {
         em.persist(order);
         return order;
     }
-
-
 }
