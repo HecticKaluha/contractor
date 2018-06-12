@@ -3,11 +3,12 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd" version="2.1">
-    <persistence-unit name="contractor_customer">
+    <persistence-unit name="contractor_order">
         <description>This unit manages customers for the contractor app designed by Stefano Verhoeve
         </description>
         <jta-data-source>jdbc/orderds</jta-data-source>
-        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <!--<exclude-unlisted-classes>false</exclude-unlisted-classes>-->
+        <class>model.Order</class>
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
             <property name="eclipselink.logging.logger" value="DefaultLogger"/>
