@@ -94,7 +94,7 @@ public class CustomerDaoImp implements CustomerDao {
         try {
             om.setStringProperty("action", "payOrder");
         } catch (JMSException e) {
-            System.out.println("Something went wrong when setting a property = ");
+            System.out.println("Something went wrong when setting a property:");
             e.printStackTrace();
         }
         broker.sendObjectMessageToOrder(om);
