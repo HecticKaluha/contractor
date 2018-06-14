@@ -15,6 +15,11 @@ import java.util.List;
 public class Order implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int Id;
+
+    private String name;
+
     private int orderId;
 
     private Date orderdate;
@@ -30,12 +35,13 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(int orderid, List<Integer> products){
+    public Order(int orderid, List<Integer> products, String name){
         this.orderId = orderid;
         this.products = products;
         this.orderdate = new Date();
         this.paid = false;
         this.totalPrice = 0;
+        this.name = name;
     }
 
     public int getOrderId() {
@@ -80,5 +86,21 @@ public class Order implements Serializable {
 
     public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

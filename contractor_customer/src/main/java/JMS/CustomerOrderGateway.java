@@ -79,4 +79,8 @@ public class CustomerOrderGateway implements MessageListener {
     public void setBroker(Broker broker) {
         this.broker = broker;
     }
+
+    public void sendObjectMessageToOrder(ObjectMessage om) {
+        sender.sendObjectMessage(om);
+    }
 }

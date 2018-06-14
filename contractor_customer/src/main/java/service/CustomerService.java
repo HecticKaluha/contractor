@@ -33,4 +33,8 @@ public class CustomerService {
     public boolean delete(String name) throws CouldNotDeleteCustomerException {
         return customerDao.delete(name);
     }
+
+    public void payOrder(int orderid) {
+        customerDao.payOrder(orderid);
+    }
 }

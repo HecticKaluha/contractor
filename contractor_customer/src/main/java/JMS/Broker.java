@@ -34,4 +34,28 @@ public class Broker {
     public void sendToProduct(TextMessage message) {
         customerProductGateway.sendToProduct(message);
     }
+
+    public void payOrder(int orderid) {
+
+    }
+
+    public CustomerOrderGateway getCustomerOrderGateway() {
+        return customerOrderGateway;
+    }
+
+    public void setCustomerOrderGateway(CustomerOrderGateway customerOrderGateway) {
+        this.customerOrderGateway = customerOrderGateway;
+    }
+
+    public CustomerProductGateway getCustomerProductGateway() {
+        return customerProductGateway;
+    }
+
+    public void setCustomerProductGateway(CustomerProductGateway customerProductGateway) {
+        this.customerProductGateway = customerProductGateway;
+    }
+
+    public void sendObjectMessageToOrder(ObjectMessage om) {
+        customerOrderGateway.sendObjectMessageToOrder(om);
+    }
 }

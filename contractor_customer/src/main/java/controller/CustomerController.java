@@ -47,10 +47,23 @@ public class CustomerController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response post(CustomerBody customerBody) {
+    public Response addCustomer(CustomerBody customerBody) {
         try {
             Customer customer = customerService.addCustomer(customerBody.getName(), customerBody.getAdress(), customerBody.getBankAccount(), customerBody.getSex(), customerBody.getAge(), customerBody.getEmail());
             return Response.ok(customer).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
+        }
+    }
+
+    @POST
+    @Path("/payorder/{orderid}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response payOrder(@PathParam("orderid") int orderid) {
+        try {
+           customerService.payOrder(orderid);
+            return Response.ok("Payment requested").build();
         } catch (Exception e) {
             return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
         }

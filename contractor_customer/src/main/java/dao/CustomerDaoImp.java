@@ -1,12 +1,17 @@
 package dao;
 
+import JMS.Broker;
 import exceptions.*;
 import model.Customer;
 import model.Product;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.jms.JMSException;
+import javax.jms.ObjectMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.Serializable;
 import java.util.List;
 
 @Stateless
@@ -14,6 +19,9 @@ public class CustomerDaoImp implements CustomerDao {
 
     @PersistenceContext(unitName = "contractor_customer")
     private EntityManager em;
+
+    @Inject
+    private Broker broker;
 
     @Override
     public List<Customer> getAllCustomers() throws CouldNotGetCustomersException {
@@ -77,6 +85,19 @@ public class CustomerDaoImp implements CustomerDao {
         {
             throw new CouldNotDeleteCustomerException(e.getMessage());
         }
+    }
+
+    @Override
+    public void payOrder(int orderid) {
+
+        ObjectMessage om = broker.getCustomerOrderGateway().getSender().createObjectMessage(orderid);
+        try {
+            om.setStringProperty("action", "payOrder");
+        } catch (JMSException e) {
+            System.out.println("Something went wrong when setting a property = ");
+            e.printStackTrace();
+        }
+        broker.sendObjectMessageToOrder(om);
     }
 
 

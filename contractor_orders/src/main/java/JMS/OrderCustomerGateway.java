@@ -2,6 +2,9 @@ package JMS;
 
 import JMS.connection.MessageReceiverGateway;
 import JMS.connection.MessageSenderGateway;
+import exceptions.CouldNotDeleteOrderException;
+import exceptions.CouldNotFindOrderException;
+import exceptions.OrderAlreadyPaidException;
 
 import javax.jms.*;
 
@@ -34,8 +37,14 @@ public class OrderCustomerGateway implements MessageListener {
             if (message instanceof ObjectMessage) {
                 System.out.println("Received message from customer: " + message.toString());
                 //check message for typefield and call right method
-
-
+                try {
+                    if ((message.getStringProperty("action")).equals("payOrder")) {
+                        int orderToPay = (int)((ObjectMessage) message).getObject();
+                        broker.payOrder(orderToPay);
+                    }
+                } catch (JMSException | CouldNotFindOrderException | OrderAlreadyPaidException e) {
+                    e.printStackTrace();
+                }
             } else {
                 System.out.println("The message wasnt of the correct type. It was not an instance of ObjectMessage");
             }

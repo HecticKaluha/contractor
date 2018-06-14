@@ -1,6 +1,7 @@
 package JMS;
 
 import exceptions.CouldNotFindOrderException;
+import exceptions.OrderAlreadyPaidException;
 import service.OrderService;
 
 import javax.annotation.PostConstruct;
@@ -66,5 +67,9 @@ public class Broker {
 
     public void updateOrderTotalPrice(int orderid, int totalprice) throws CouldNotFindOrderException {
         orderService.updateOrderPrice(orderid, totalprice);
+    }
+
+    public void payOrder(int orderToPay) throws CouldNotFindOrderException, OrderAlreadyPaidException {
+        orderService.payOrder(orderToPay);
     }
 }

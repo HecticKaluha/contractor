@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import exceptions.CouldNotDeleteOrderException;
 import exceptions.CouldNotFindOrderException;
 import exceptions.CouldNotGetOrderException;
+import exceptions.OrderAlreadyPaidException;
 import model.Order;
 
 import javax.ejb.Stateless;
@@ -69,8 +70,8 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     @Transactional
-    public Order addOrder(int orderid, List<Integer> products) {
-        Order order = new Order(orderid, products);
+    public Order addOrder(int orderid, List<Integer> products, String name) {
+        Order order = new Order(orderid, products, name);
         try {
             em.persist(order);
         } catch (Exception e) {
@@ -100,5 +101,16 @@ public class OrderDaoImpl implements OrderDao {
         order.setTotalPrice(totalprice);
         em.merge(order);
         return order;
+    }
+
+    @Override
+    public void payOrder(int orderToPay) throws CouldNotFindOrderException, OrderAlreadyPaidException {
+        Order order = find(orderToPay);
+        if(order.isPaid())
+        {
+            throw new OrderAlreadyPaidException("Order " + order.getId() + " is already paid");
+        }
+        order.setPaid(true);
+        em.merge(order);
     }
 }

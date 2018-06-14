@@ -11,6 +11,7 @@ public class AddOrderBody implements Serializable {
 
     private int orderid;
     private Integer[] products;
+    private String name;
 
     public AddOrderBody() {
 
@@ -30,5 +31,13 @@ public class AddOrderBody implements Serializable {
 
     public void setProducts(Integer[] products) {
         this.products = products;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

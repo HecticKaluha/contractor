@@ -55,8 +55,9 @@ public class OrderController {
             List<Integer> products = new ArrayList<>();
             for (int i : addOrderBody.getProducts())
                 products.add(i);
+            String name = addOrderBody.getName();
 
-            Order order = orderService.addOrder(orderid,products);
+            Order order = orderService.addOrder(orderid,products, name);
             return Response.ok(order).build();
         }
         catch (Exception e)

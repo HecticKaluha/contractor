@@ -16,4 +16,6 @@ public interface CustomerDao {
     Customer updateCustomer(String name, String adress, String bankAccount, String sex, int age, String email) throws CouldNotFindCustomerException, CouldNotUpdateCustomerException;
 
     boolean delete(String name) throws CouldNotDeleteCustomerException;
+
+    void payOrder(int orderid);
 }

@@ -20,7 +20,7 @@ public class Initialize {
 
     }
 
-    @PostConstruct
+    /*@PostConstruct
     public void initData() {
         List<Integer> order1 = new ArrayList<Integer>();
         order1.add(1);
@@ -40,5 +40,5 @@ public class Initialize {
         } catch (Exception e) {
             System.out.println("error initializing: " + e.getMessage());
         }
-    }
+    }*/
 }
