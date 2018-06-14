@@ -1,16 +1,25 @@
 package JMS;
 
+import exceptions.CouldNotCalculatePriceException;
+import service.ProductService;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.inject.Inject;
 import javax.jms.ObjectMessage;
 import javax.jms.TextMessage;
+import java.util.Arrays;
+import java.util.List;
 
 @Singleton
 @Startup
 public class Broker {
     private ProductOrderGateway productOrderGateway;
     private ProductCustomerGateway productCustomerGateway;
+
+    @Inject
+    ProductService productService;
 
     public Broker() {
     }
@@ -32,5 +41,14 @@ public class Broker {
 
     public void sendToCustomer(TextMessage message) {
         productCustomerGateway.sendToCustomer(message);
+    }
+
+    public int calculateTotalPrice(List<Integer> products){
+        try {
+            return productService.calculateTotalPrice(products);
+        } catch (CouldNotCalculatePriceException e) {
+            System.out.println("Something went wrong while caluculating the price : " + e.getMessage());
+        }
+        return -1;
     }
 }

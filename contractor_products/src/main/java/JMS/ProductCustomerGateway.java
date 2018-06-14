@@ -35,13 +35,13 @@ public class ProductCustomerGateway implements MessageListener {
     @Override
     public void onMessage(Message message) {
         try {
-            if (message instanceof TextMessage) {
+            if (message instanceof ObjectMessage) {
                 System.out.println("Received message from Customer: " + message.toString());
                 //check message for typefield and call right method
 
 
             } else {
-                System.out.println("The message wasnt of the correct type. It was not an instance of TextMessage");
+                System.out.println("The message wasnt of the correct type. It was not an instance of ObjectMessage");
             }
         } catch (Exception e) {
             //TODO: Make non-general catch

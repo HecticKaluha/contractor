@@ -3,6 +3,8 @@ package dao;
 import JMS.Broker;
 import JMS.MessageObject;
 import JMS.connection.ConnectionManager;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import exceptions.CouldNotDeleteOrderException;
 import exceptions.CouldNotFindOrderException;
@@ -10,6 +12,7 @@ import exceptions.CouldNotGetOrderException;
 import model.Order;
 
 import javax.inject.Inject;
+import javax.jms.JMSException;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
 import javax.jms.TextMessage;
@@ -17,6 +20,7 @@ import javax.json.Json;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.io.Serializable;
 import java.util.List;
 
 public class OrderDaoImpl implements OrderDao {
@@ -39,13 +43,11 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     @Transactional
     public boolean deleteOrder(int orderId) throws CouldNotDeleteOrderException {
-        try{
+        try {
             Order orderToDelete = find(orderId);
             em.remove(orderToDelete);
             return true;
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             throw new CouldNotDeleteOrderException(e.getMessage());
         }
     }
@@ -53,7 +55,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Order find(int orderId) throws CouldNotFindOrderException {
         try {
-            Order orderToReturn = em.createQuery("SELECT Orderclass FROM Orderclass orderclass WHERE orderclass.orderId = :orderId" , Order.class)
+            Order orderToReturn = em.createQuery("SELECT Orderclass FROM Orderclass orderclass WHERE orderclass.orderId = :orderId", Order.class)
                     .setParameter("orderId", orderId)
                     .getSingleResult();
             return orderToReturn;
@@ -65,24 +67,28 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Order addOrder(List<Integer> products) {
         Order order = new Order(products);
-        try{
+        try {
             em.persist(order);
-        }
-        catch(Exception e)
-        {
-            System.out.println("Foutje " + e.getMessage() );
+        } catch (Exception e) {
+            System.out.println("Something went wrong while persisting the order");
+            e.printStackTrace();
         }
 
+        ObjectMessage om = broker.getOrderProductGateway().getSender().createObjectMessage((Serializable) products);
 
-        //put message in queue to calculate the totalprice of the orders
-        MessageObject messageObject = new MessageObject();
-        messageObject.setAction("calculateTotalPrice");
-        messageObject.addParameter(order.getProducts());
-        Gson gson = new Gson();
-        String jsonMessage = gson.toJson(messageObject);
-        System.out.println("The Json you sent to Product is: " + jsonMessage);
-        broker.sendToProduct(jsonMessage);
+        try {
+            om.setStringProperty("action", "calculateTotalPrice");
+        } catch (JMSException e) {
+            System.out.println("Something went wrong when setting a property = ");
+            e.printStackTrace();
+        }
+        broker.sendObjectMessageToProduct(om);
 
         return order;
+    }
+
+    @Override
+    public Order updateOrderPrice(int orderid, int totalprice) {
+        return null;
     }
 }

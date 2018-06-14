@@ -34,6 +34,10 @@ public class Broker {
     public void sendToProduct(String message) {
         orderProductGateway.sendToProduct(message);
     }
+    public void sendObjectMessageToProduct(ObjectMessage om)
+    {
+        orderProductGateway.sendObjectMessageToProduct(om);
+    }
 
     public OrderCustomerGateway getOrderCustomerGateway() {
         return orderCustomerGateway;

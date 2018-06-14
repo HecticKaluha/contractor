@@ -15,4 +15,6 @@ public interface ProductDao {
     Product find(String brand, String model) throws CouldNotFindProductException;
 
     boolean delete(String brand, String model) throws CouldNotDeleteProductException;
+
+    Product getPrice(int i) throws CouldNotFindProductException;
 }

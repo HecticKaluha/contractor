@@ -12,5 +12,6 @@ public interface OrderDao {
     boolean deleteOrder(int orderId) throws CouldNotDeleteOrderException;
     Order find(int orderId) throws CouldNotFindOrderException;
     Order addOrder(List<Integer> orders);
+    Order updateOrderPrice(int orderid, int totalprice);
 
 }

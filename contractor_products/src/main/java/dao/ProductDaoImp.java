@@ -79,5 +79,18 @@ public class ProductDaoImp implements ProductDao {
         }
     }
 
+    @Override
+    public Product getPrice(int id) throws CouldNotFindProductException {
+        try{
+            Product productToReturn = em.createQuery("SELECT product FROM Product product WHERE product.id = :id", Product.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+            return productToReturn;
+        }
+        catch (Exception e) {
+            throw new CouldNotFindProductException(e.getMessage());
+        }
+    }
+
 
 }

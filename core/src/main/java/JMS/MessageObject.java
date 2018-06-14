@@ -2,17 +2,19 @@ package JMS;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MessageObject implements Serializable {
 
     private String action;
-    private List<Object> parameters;
+    private HashMap<String, Object> parameters;
 
 
     public MessageObject() {
         this.action = "";
-        this.parameters = new ArrayList<>();
+        this.parameters = new HashMap<>();
     }
 
     public String getAction() {
@@ -23,15 +25,15 @@ public class MessageObject implements Serializable {
         this.action = action;
     }
 
-    public List getParameters() {
+    public HashMap<String, Object> getParameters() {
         return parameters;
     }
 
-    public void setParameters(List parameters) {
+    public void setParameters(HashMap<String, Object> parameters) {
         this.parameters = parameters;
     }
-    public void addParameter(Object parameter)
+    public void addParameter(String parameterName, Object parameter)
     {
-        parameters.add(parameter);
+        parameters.put(parameterName, parameter);
     }
 }

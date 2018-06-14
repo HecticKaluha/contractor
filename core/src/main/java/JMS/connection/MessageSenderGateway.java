@@ -56,6 +56,13 @@ public class MessageSenderGateway {
             e.printStackTrace();
         }
     }
+    public void sendObjectMessage(ObjectMessage msg) {
+        try {
+            producer.send(destination, msg);
+        } catch (JMSException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void sendTextMessage(TextMessage msg) {
         try {

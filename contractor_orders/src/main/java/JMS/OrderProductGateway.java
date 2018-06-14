@@ -15,7 +15,7 @@ public class OrderProductGateway implements MessageListener {
     private String channelName;
     private Broker broker;
 
-    public OrderProductGateway(){
+    public OrderProductGateway() {
 
     }
 
@@ -32,20 +32,24 @@ public class OrderProductGateway implements MessageListener {
         sender.send(textMessage);
     }
 
+    public void sendObjectMessageToProduct(ObjectMessage om) {
+        sender.sendObjectMessage(om);
+    }
+
     @Override
     public void onMessage(Message message) {
         try {
-            if (message instanceof TextMessage) {
-                System.out.println("Received message from customer: " + message.toString());
+            if (message instanceof ObjectMessage) {
+                System.out.println("Received message from Product: " + message.toString());
                 //check message for typefield and call right method
 
 
             } else {
-                System.out.println("The message wasnt of the correct type. It was not an instance TextMessage");
+                System.out.println("The message wasnt of the correct type. It was not an instance ObjectMessage");
             }
         } catch (Exception e) {
             //TODO: Make non-general catch
-            System.out.println("Something went wrong when receiving a message in the BrokerDeveloperGateway: onMessage" + e.getMessage());
+            System.out.println("Something went wrong when receiving a message in the OrderProductGateway: onMessage" + e.getMessage());
         }
     }
 
@@ -80,4 +84,6 @@ public class OrderProductGateway implements MessageListener {
     public void setBroker(Broker broker) {
         this.broker = broker;
     }
+
+
 }

@@ -33,4 +33,16 @@ public class ProductService {
     public boolean delete(String brand, String model) throws CouldNotDeleteProductException {
         return productDao.delete(brand, model);
     }
+
+    public int calculateTotalPrice(List<Integer> products) throws CouldNotCalculatePriceException {
+        int totalPrice = 0;
+        for (int i : products) {
+            try {
+                totalPrice += productDao.getPrice(i).getPrice();
+            } catch (CouldNotFindProductException e) {
+                throw new CouldNotCalculatePriceException(e.getMessage());
+            }
+        }
+        return totalPrice;
+    }
 }
