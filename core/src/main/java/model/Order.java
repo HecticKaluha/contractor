@@ -15,7 +15,6 @@ import java.util.List;
 public class Order implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int orderId;
 
     private Date orderdate;
@@ -31,7 +30,8 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(List<Integer> products){
+    public Order(int orderid, List<Integer> products){
+        this.orderId = orderid;
         this.products = products;
         this.orderdate = new Date();
         this.paid = false;

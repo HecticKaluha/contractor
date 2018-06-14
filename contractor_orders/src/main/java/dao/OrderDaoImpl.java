@@ -11,6 +11,7 @@ import exceptions.CouldNotFindOrderException;
 import exceptions.CouldNotGetOrderException;
 import model.Order;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.ObjectMessage;
@@ -22,7 +23,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
-
+@Stateless
 public class OrderDaoImpl implements OrderDao {
 
     @PersistenceContext(unitName = "contractor_order")
@@ -32,6 +33,7 @@ public class OrderDaoImpl implements OrderDao {
     private Broker broker;
 
     @Override
+    @Transactional
     public List<Order> getAllOrders() throws CouldNotGetOrderException {
         try {
             return em.createQuery("SELECT Orderclass FROM Orderclass orderclass").getResultList();
@@ -53,6 +55,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
+    @Transactional
     public Order find(int orderId) throws CouldNotFindOrderException {
         try {
             Order orderToReturn = em.createQuery("SELECT Orderclass FROM Orderclass orderclass WHERE orderclass.orderId = :orderId", Order.class)
@@ -65,8 +68,9 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Order addOrder(List<Integer> products) {
-        Order order = new Order(products);
+    @Transactional
+    public Order addOrder(int orderid, List<Integer> products) {
+        Order order = new Order(orderid, products);
         try {
             em.persist(order);
         } catch (Exception e) {
@@ -76,8 +80,10 @@ public class OrderDaoImpl implements OrderDao {
 
         ObjectMessage om = broker.getOrderProductGateway().getSender().createObjectMessage((Serializable) products);
 
+
         try {
             om.setStringProperty("action", "calculateTotalPrice");
+            om.setIntProperty("orderid", orderid);
         } catch (JMSException e) {
             System.out.println("Something went wrong when setting a property = ");
             e.printStackTrace();
@@ -88,7 +94,11 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Order updateOrderPrice(int orderid, int totalprice) {
-        return null;
+    @Transactional
+    public Order updateOrderPrice(int orderid, int totalprice) throws CouldNotFindOrderException {
+        Order order = find(orderid);
+        order.setTotalPrice(totalprice);
+        em.merge(order);
+        return order;
     }
 }

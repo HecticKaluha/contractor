@@ -3,10 +3,8 @@ package JMS;
 import JMS.connection.MessageReceiverGateway;
 import JMS.connection.MessageSenderGateway;
 
-import javax.jms.Message;
-import javax.jms.MessageListener;
-import javax.jms.ObjectMessage;
-import javax.jms.TextMessage;
+import javax.jms.*;
+import java.util.List;
 
 public class OrderProductGateway implements MessageListener {
 
@@ -41,9 +39,16 @@ public class OrderProductGateway implements MessageListener {
         try {
             if (message instanceof ObjectMessage) {
                 System.out.println("Received message from Product: " + message.toString());
-                //check message for typefield and call right method
-
-
+                //check message for typefield and call correct method
+                try {
+                    if ((message.getStringProperty("action")).equals("calculateTotalPriceReply")) {
+                        int orderid = message.getIntProperty("orderid");
+                        int totalprice = (int)((ObjectMessage) message).getObject();
+                        broker.updateOrderTotalPrice(orderid, totalprice);
+                    }
+                } catch (JMSException e1) {
+                    e1.printStackTrace();
+                }
             } else {
                 System.out.println("The message wasnt of the correct type. It was not an instance ObjectMessage");
             }
@@ -51,6 +56,7 @@ public class OrderProductGateway implements MessageListener {
             //TODO: Make non-general catch
             System.out.println("Something went wrong when receiving a message in the OrderProductGateway: onMessage" + e.getMessage());
         }
+
     }
 
     public MessageSenderGateway getSender() {

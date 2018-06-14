@@ -45,7 +45,8 @@ public class Broker {
 
     public int calculateTotalPrice(List<Integer> products){
         try {
-            return productService.calculateTotalPrice(products);
+            int totalprice = productService.calculateTotalPrice(products);
+            return totalprice;
         } catch (CouldNotCalculatePriceException e) {
             System.out.println("Something went wrong while caluculating the price : " + e.getMessage());
         }

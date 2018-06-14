@@ -33,9 +33,10 @@ public class Initialize {
         order3.add(1);
 
         try {
-            orderService.addOrder(order1);
-            orderService.addOrder(order2);
-            orderService.addOrder(order3);
+            System.out.println("started initializing orders");
+            orderService.addOrder(1, order1);
+            orderService.addOrder(2, order2);
+            orderService.addOrder(3, order3);
         } catch (Exception e) {
             System.out.println("error initializing: " + e.getMessage());
         }

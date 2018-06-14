@@ -5,9 +5,10 @@ import exceptions.*;
 import model.Customer;
 import model.Product;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
-
+@Stateless
 public class CustomerService {
 
     @Inject

@@ -1,16 +1,25 @@
 package JMS;
 
+import exceptions.CouldNotFindOrderException;
+import service.OrderService;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.jms.ObjectMessage;
 import javax.jms.TextMessage;
 
 @Singleton
 @Startup
+@Stateless
 public class Broker {
     private OrderCustomerGateway orderCustomerGateway;
     private OrderProductGateway orderProductGateway;
+
+    @Inject
+    private OrderService orderService;
 
     public Broker() {
 
@@ -53,5 +62,9 @@ public class Broker {
 
     public void setOrderProductGateway(OrderProductGateway orderProductGateway) {
         this.orderProductGateway = orderProductGateway;
+    }
+
+    public void updateOrderTotalPrice(int orderid, int totalprice) throws CouldNotFindOrderException {
+        orderService.updateOrderPrice(orderid, totalprice);
     }
 }

@@ -45,8 +45,9 @@ public class ProductOrderGateway implements MessageListener {
     public void onMessage(Message message) {
         try {
             if (message instanceof ObjectMessage) {
+                System.out.println("test");
 
-                System.out.println("Received message from Order: " + message.toString());
+                System.out.println("Received message from Order: ");
 
                 if((message.getStringProperty("action")).equals("calculateTotalPrice"))
                 {
@@ -54,23 +55,13 @@ public class ProductOrderGateway implements MessageListener {
                     int totalprice = broker.calculateTotalPrice(products);
                     //send to order
                     ObjectMessage objectMessage = sender.createObjectMessage(totalprice);
+                    objectMessage.setStringProperty("action", "calculateTotalPriceReply");
                     //set property to distinguish what order this is for
-
+                    objectMessage.setIntProperty("orderid", message.getIntProperty("orderid"));
                     sendObjectMessageToOrder(objectMessage);
                 }
 
 
-
-                /*Gson gson = new Gson();
-                ObjectMessage om = null;
-                om.
-                MessageObject mo = gson.fromJson(((TextMessage) message).getText(), MessageObject.class);
-
-                if(mo.getAction() == "calculateTotalPrice")
-                {
-                    broker.calculateTotalPrice(mo);
-                }*/
-                //check message for typefield and call right method
 
             } else {
                 System.out.println("The message wasnt of the correct type. It was not an instance of ObjectMessage");
