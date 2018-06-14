@@ -14,12 +14,13 @@ import java.util.List;
 @Table(name = "orderclass")
 public class Order implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int Id;
 
     private String name;
 
+    @Id
     private int orderId;
 
     private Date orderdate;

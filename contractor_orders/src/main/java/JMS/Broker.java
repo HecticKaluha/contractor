@@ -11,9 +11,8 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jms.ObjectMessage;
 import javax.jms.TextMessage;
-
-@Singleton
-@Startup
+//@Singleton
+//@Startup
 @Stateless
 public class Broker {
     private OrderCustomerGateway orderCustomerGateway;
@@ -23,18 +22,23 @@ public class Broker {
     private OrderService orderService;
 
     public Broker() {
-
-    }
-
-    @PostConstruct
-    public void start()
-    {
         System.out.println("Starting Order broker");
         orderCustomerGateway = new OrderCustomerGateway("OrderToCustomer");
         orderCustomerGateway.setBroker(this);
 
         orderProductGateway = new OrderProductGateway("OrderToProduct");
         orderProductGateway.setBroker(this);
+    }
+
+    @PostConstruct
+    public void start()
+    {
+        /*System.out.println("Starting Order broker");
+        orderCustomerGateway = new OrderCustomerGateway("OrderToCustomer");
+        orderCustomerGateway.setBroker(this);
+
+        orderProductGateway = new OrderProductGateway("OrderToProduct");
+        orderProductGateway.setBroker(this);*/
     }
 
     public void sendToCustomer(TextMessage message) {

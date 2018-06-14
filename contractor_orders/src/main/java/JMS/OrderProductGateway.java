@@ -55,6 +55,7 @@ public class OrderProductGateway implements MessageListener {
         } catch (Exception e) {
             //TODO: Make non-general catch
             System.out.println("Something went wrong when receiving a message in the OrderProductGateway: onMessage" + e.getMessage());
+            e.printStackTrace();
         }
 
     }
