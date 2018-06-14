@@ -44,6 +44,7 @@ public class OrderProductGateway implements MessageListener {
                     if ((message.getStringProperty("action")).equals("calculateTotalPriceReply")) {
                         int orderid = message.getIntProperty("orderid");
                         int totalprice = (int)((ObjectMessage) message).getObject();
+                        Thread.sleep(1000);
                         broker.updateOrderTotalPrice(orderid, totalprice);
                     }
                 } catch (JMSException e1) {
